@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Design</title>
+    <style>
+        /* General styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, darkblue, lightblue);
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        .score {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .ranking {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .coin {
+            width: 200px;
+            height: 200px;
+            background: gold;
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+        }
+        .coin img {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .status-bars {
+            width: 80%;
+            margin-top: 20px;
+        }
+        .status-bar {
+            width: 100%;
+            background: gray;
+            margin: 10px 0;
+            padding: 5px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .status-bar span {
+            display: block;
+            background: yellow;
+            height: 20px;
+            border-radius: 10px;
+        }
+        .status-bar .label {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: black;
+        }
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .link {
+            cursor: pointer;
+            color: white;
+            text-decoration: underline;
+        }
+        .section {
+            display: none;
+        }
+        .back-button {
+            margin-top: 20px;
+            cursor: pointer;
+            color: white;
+            text-decoration: underline;
+        }
+        .task {
+            margin: 10px 0;
+        }
+        .task button {
+            margin-left: 10px;
+        }
+        .referral-section {
+            margin-top: 20px;
+        }
+        .referral-section input {
+            padding: 10px;
+            font-size: 16px;
+        }
+        .referral-section button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .referral-section p {
+            margin: 0;
+        }
+        @media (max-width: 600px) {
+            .score {
+                font-size: 32px;
+            }
+            .ranking {
+                font-size: 18px;
+            }
+            .coin {
+                width: 150px;
+                height: 150px;
+            }
+            .coin img {
+                width: 45px;
+                height: 45px;
+            }
+            .status-bar span {
+                height: 15px;
+            }
+            .links {
+                flex-direction: row;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main-game">
+        <div class="score" id="score">0</div>
+        <div class="ranking" id="ranking"><span>Bronze</span></div>
+        <div class="coin" id="coin">
+            <img src="https://res.cloudinary.com/dwtzldzi4/image/upload/v1723371353/wcqlc1kt80pa2fwbl1ml.png" alt="Triangle">
+        </div>
+        <div class="status-bars">
+            <div class="status-bar">
+                <span id="energy-bar" style="width: 100%;"></span>
+                <div class="label" id="energy-label">4000 / 4000 ⚡</div>
+            </div>
+        </div>
+        <div class="links">
+            <div class="link" id="frens">Frens🐶</div>
+            <div class="link" id="earn">Earn💰</div>
+            <div class="link" id="boosts">Boosts🚀</div>
+        </div>
+    </div>
+    <div class="section" id="frens-section">
+        <h2>Enter Your Telegram Username to Start the Game</h2>
+        <p class="referral-section">
+            <input type="text" id="telegramUsername" placeholder="Enter your username">
+            <button id="startButton">Start Game</button>
+        </p>
+        <p id="referralLink" style="display:none;">Referral Link: <a id="frensLink" href="#" target="_blank" style="color: white;">Your Referral Link</a></p>
+        <div class="back-button" id="back-frens">Back to Game</div>
+    </div>
+    <div class="section" id="earn-section">
+        <h2>Earn Section</h2>
+        <div class="task">
+            <p>Subscribe to our YouTube channel</p>
+            <button id="youtubeButton">View</button>
+        </div>
+        <div class="task">
+            <p>Follow us on X (Twitter)</p>
+            <button id="twitterButton">View</button>
+        </div>
+        <div class="task">
+            <p>Like and repost on X (Twitter)</p>
+            <button id="twitterPostButton">View</button>
+        </div>
+        <div class="task">
+            <p>Join our Telegram community</p>
+            <button id="telegramButton">View</button>
+        </div>
+        <div class="task">
+            <p>Join our Telegram group</p>
+            <button id="telegramGroupButton">View</button>
+        </div>
+        <div class="back-button" id="back-earn">Back to Game</div>
+    </div>
+    <div class="section" id="boosts-section">
+        <h2>Boosts Section</h2>
+        <p>Upgrade tap points from level 1 to 13</p>
+        <div>
+            <p>Current Level: <span id="tap-level">1</span></p>
+            <p>Upgrade Price: <span id="upgrade-price">1000</span> points</p>
+            <button id="upgrade-button">Upgrade</button>
+        </div>
+        <div class="back-button" id="back-boosts">Back to Game</div>
+    </div>
+    <script>
+        let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
+        let energy = localStorage.getItem('energy') ? parseInt(localStorage.getItem('energy')) : 4000;
+        const maxEnergy = 4000;
+        const energyRegenRate = 1; // Energy to regenerate
+        const energyRegenInterval = 1000; // Interval in milliseconds (1 second)
+
+        let tapLevel = localStorage.getItem('tapLevel') ? parseInt(localStorage.getItem('tapLevel')) : 1;
+        let tapPoints = localStorage.getItem('tapPoints') ? parseInt(localStorage.getItem('tapPoints')) : 1;
+        let upgradePrice = localStorage.getItem('upgradePrice') ? parseInt(localStorage.getItem('upgradePrice')) : 1000;
+        let telegramUsername = localStorage.getItem('telegramUsername') || '';
+
+        const scoreElement = document.getElementById('score');
+        const coinElement = document.getElementById('coin');
+        const energyLabel = document.getElementById('energy-label');
+        const energyBar = document.getElementById('energy-bar');
+        const rankingElement = document.getElementById('ranking');
+        const mainGame = document.getElementById('main-game');
+        const frensSection = document.getElementById('frens-section');
+        const earnSection = document.getElementById('earn-section');
+        const boostsSection = document.getElementById('boosts-section');
+        const tapLevelElement = document.getElementById('tap-level');
+        const upgradePriceElement = document.getElementById('upgrade-price');
+        const frensLink = document.getElementById('frensLink');
+        const referralLinkElement = document.getElementById('referralLink');
+        const telegramUsernameInput = document.getElementById('telegramUsername');
+        const startButton = document.getElementById('startButton');
+
+        const tasks = [
+            { id: 'youtubeButton', points: 1000 },
+            { id: 'twitterButton', points: 1000 },
+            { id: 'twitterPostButton', points: 1000 },
+            { id: 'telegramButton', points: 1000 },
+            { id: 'telegramGroupButton', points: 1000 }
+        ];
+
+        function updateDisplay() {
+            scoreElement.textContent = score;
+            energyLabel.textContent = `${energy} / ${maxEnergy} ⚡`;
+            energyBar.style.width = `${(energy / maxEnergy) * 100}%`;
+        }
+
+        function saveProgress() {
+            localStorage.setItem('score', score);
+            localStorage.setItem('energy', energy);
+            localStorage.setItem('tapLevel', tapLevel);
+            localStorage.setItem('tapPoints', tapPoints);
+            localStorage.setItem('upgradePrice', upgradePrice);
+            localStorage.setItem('telegramUsername', telegramUsername);
+            tasks.forEach(task => {
+                localStorage.setItem(task.id, document.getElementById(task.id).textContent);
+            });
+        }
+
+        // Load saved task states
+        tasks.forEach(task => {
+            const taskButton = document.getElementById(task.id);
+            const savedState = localStorage.getItem(task.id);
+            if (savedState) {
+                taskButton.textContent = savedState;
+                if (savedState === 'Claimed') {
+                    taskButton.disabled = true;
+                }
+            }
+        });
+
+        // Handle tap to increase score
+        coinElement.addEventListener('click', () => {
+            if (energy >= 1) {
+                score += tapPoints;
+                energy -= 1;
+                updateDisplay();
+                saveProgress();
+                updateRanking();
+            } else {
+                alert('Not enough energy to tap!');
+            }
+        });
+
+        // Energy regeneration
+        setInterval(() => {
+            if (energy < maxEnergy) {
+                energy = Math.min(maxEnergy, energy + energyRegenRate);
+                updateDisplay();
+                saveProgress();
+            }
+        }, energyRegenInterval);
+
+        // Update the ranking based on the score
+        function updateRanking() {
+            let ranking = 'Bronze';
+            if (score >= 1000) {
+                ranking = 'Silver';
+            }
+            if (score >= 5000) {
+                ranking = 'Gold';
+            }
+            if (score >= 10000) {
+                ranking = 'Platinum';
+            }
+            rankingElement.textContent = ranking;
+        }
+
+        // Handle navigation between sections
+        document.getElementById('frens').addEventListener('click', () => {
+            mainGame.style.display = 'none';
+            frensSection.style.display = 'block';
+        });
+
+        document.getElementById('earn').addEventListener('click', () => {
+            mainGame.style.display = 'none';
+            earnSection.style.display = 'block';
+        });
+
+        document.getElementById('boosts').addEventListener('click', () => {
+            mainGame.style.display = 'none';
+            boostsSection.style.display = 'block';
+        });
+
+        document.getElementById('back-frens').addEventListener('click', () => {
+            frensSection.style.display = 'none';
+            mainGame.style.display = 'block';
+        });
+
+        document.getElementById('back-earn').addEventListener('click', () => {
+            earnSection.style.display = 'none';
+            mainGame.style.display = 'block';
+        });
+
+        document.getElementById('back-boosts').addEventListener('click', () => {
+            boostsSection.style.display = 'none';
+            mainGame.style.display = 'block';
+        });
+
+        // Handle boosts section
+        function updateBoostsDisplay() {
+            tapLevelElement.textContent = tapLevel;
+            upgradePriceElement.textContent = upgradePrice;
+        }
+
+        document.getElementById('upgrade-button').addEventListener('click', () => {
+            if (score >= upgradePrice && tapLevel < 13) {
+                score -= upgradePrice;
+                tapLevel++;
+                tapPoints++;
+                upgradePrice += 500;
+                updateBoostsDisplay();
+                updateDisplay();
+                saveProgress();
+            } else {
+                alert('Not enough points to upgrade or maximum level reached.');
+            }
+        });
+
+        updateBoostsDisplay();
+
+        // Handle earn tasks
+        tasks.forEach(task => {
+            const button = document.getElementById(task.id);
+            button.addEventListener('click', () => {
+                if (button.textContent === 'View') {
+                    button.textContent = 'Claim';
+                    window.open(getTaskUrl(task.id), '_blank');
+                } else if (button.textContent === 'Claim') {
+                    score += task.points;
+                    button.textContent = 'Claimed';
+                    button.disabled = true;
+                    updateDisplay();
+                    saveProgress();
+                }
+            });
+        });
+
+        function getTaskUrl(taskId) {
+            switch (taskId) {
+                case 'youtubeButton':
+                    return 'https://www.youtube.com/channel/UCVc5jvMF5A0UkrEKCfJHkiw';
+                case 'twitterButton':
+                    return 'https://x.com/royal91809';
+                case 'twitterPostButton':
+                    return 'https://x.com/royal91809/status/1822575438297739336';
+                case 'telegramButton':
+                    return 'https://t.me/mrcutecoin1';
+                case 'telegramGroupButton':
+                    return 'https://t.me/+toyqOc6nMsQ4ZmU0';
+                default:
+                    return '#';
+            }
+        }
+
+        // Handle referral link section
+        if (telegramUsername) {
+            referralLinkElement.style.display = 'block';
+            frensLink.href = `https://t.me/Mrcutecoin_bot/Mrcutecoin?start=${telegramUsername}`;
+            telegramUsernameInput.style.display = 'none';
+            startButton.style.display = 'none';
+        }
+
+        startButton.addEventListener('click', () => {
+            const username = telegramUsernameInput.value;
+            if (username) {
+                telegramUsername = username;
+                referralLinkElement.style.display = 'block';
+                frensLink.href = `https://t.me/Mrcutecoin_bot/Mrcutecoin?start=${username}`;
+                telegramUsernameInput.style.display = 'none';
+                startButton.style.display = 'none';
+                saveProgress();
+            } else {
+                alert('Please enter your Telegram username');
+            }
+        });
+
+        // Initial setup
+        updateDisplay();
+        updateRanking();
+    </script>
+</body>
+</html>
